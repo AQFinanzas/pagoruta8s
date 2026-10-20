@@ -124,6 +124,19 @@
     .q{font-size:19px}.amount .big{font-size:26px}.row .v{font-size:14.5px}.copy{min-width:74px;padding:8px 10px}
   }
 </style>
+<!-- Meta Pixel · Pixel AQ Finanzas · Landings -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1875412480497286');
+fbq('track','PageView');
+fbq('track','InitiateCheckout',{value:97,currency:'USD',content_name:'Ruta Excedente 8S'});
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1875412480497286&ev=PageView&noscript=1"/></noscript>
+<!-- Fin Meta Pixel -->
 </head>
 <body>
 <div class="wrap">
@@ -309,6 +322,7 @@ function elegirPais(p){
 }
 
 function elegirMetodo(k){
+  try{fbq('track','AddPaymentInfo',{value:97,currency:'USD',content_name:'Ruta Excedente 8S'})}catch(_){}
   metodo=k; const m=METODOS[k]; const d=$('detalle');
   let html=`<div class="step-tag">Paso 3 de 4</div><h2 class="q">${m.ico} ${m.nombre}</h2>
     <div class="amount" style="margin-top:12px"><small>Monto a pagar</small><div class="big">${m.monto()}</div><div class="note">${m.nota()}</div></div>`;
@@ -378,6 +392,7 @@ $('form').addEventListener('submit',e=>{
     tasa:(metodo==='pagomovil'||metodo==='banesco')?TASA_BS:''};
 
   enviarSheet(datos);
+  try{fbq('track','Purchase',{value:97,currency:'USD',content_name:'Ruta Excedente 8S'})}catch(_){}
 
   const txt=`Hola, mi nombre es *${datos.nombre}*. Acabo de realizar el pago de la *Ruta Excedente 8S* por ${datos.metodo} (${datos.monto}). `+
     (SCRIPT_URL?'':`Mi correo es ${datos.correo}. `)+
