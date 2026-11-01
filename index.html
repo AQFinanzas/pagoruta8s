@@ -11,7 +11,7 @@
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init','1875412480497286');fbq('track','PageView');
-fbq('track','InitiateCheckout',{value:97,currency:'USD',content_name:'Ruta Excedente 8S'});
+var P197=/[?&]p=197\b/.test(location.search);fbq('track','InitiateCheckout',{value:P197?197:97,currency:'USD',content_name:'Ruta Excedente 8S'});
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1875412480497286&ev=PageView&noscript=1"/></noscript>
 <style>
@@ -79,7 +79,7 @@ footer{text-align:center;color:var(--muted);font-size:12.5px;padding:10px 0 90px
     <h1>Inscripción a la Ruta Excedente 8S</h1>
     <p class="sub">Elige tu método, paga y envíanos la captura. Así de simple.</p>
     <div class="price">
-      <div class="usd">$97 <small>USD · pago único</small></div>
+      <div class="usd"><span id="precioTop">$97</span> <small>USD · pago único</small></div>
       <div class="bs" id="bsLine"></div>
       <div class="chips">
         <span class="chip">✅ Garantía de 7 días</span>
@@ -154,7 +154,7 @@ footer{text-align:center;color:var(--muted);font-size:12.5px;padding:10px 0 90px
 <script>
 /* ===================== CONFIGURACIÓN (editar aquí) ===================== */
 var CONFIG = {
-  PRECIO_USD: 97,
+  PRECIO_USD: P197 ? 197 : 97,
   TASA_BS: 1050,                       // tasa del día en Bs por US$
   CIERRE: '',                          // opcional: fecha de cierre (ej. '2026-10-25T21:00:00-05:00'); vacío = siempre abierta
   WHATSAPP: '573105104847',            // soporte (recibe las capturas)
@@ -164,7 +164,7 @@ var CONFIG = {
 /* Métodos: el orden aquí es el orden en la página. Campos vacíos = no se muestran. */
 var METODOS = [
   {id:'hotmart', nombre:'Tarjeta de crédito o débito', donde:'all', moneda:'card',
-    link:'https://pay.hotmart.com/T106050439F'},
+    link: P197 ? 'https://pay.hotmart.com/T106050439F?off=i786s9b1' : 'https://pay.hotmart.com/T106050439F'},
   {id:'pm', nombre:'Pago Móvil', donde:'ve', moneda:'bs', campos:[
     ['Banco','Banesco (0134)','0134'],['Teléfono','0424-679-1594','04246791594'],['Cédula','19.845.867','19845867'],['Titular','Roxana Vasquez',null]]},
   {id:'binance', nombre:'Binance (USDT)', donde:'all', moneda:'usdt', campos:[
@@ -185,6 +185,7 @@ var COLORES = {
 /* ====================================================================== */
 
 var $ = function(s){return document.querySelector(s)};
+if(P197){ $('#precioTop').textContent='$197'; }
 function fmtBs(n){return 'Bs. '+n.toLocaleString('es-VE',{minimumFractionDigits:2,maximumFractionDigits:2})}
 var BS = CONFIG.PRECIO_USD*CONFIG.TASA_BS;
 var PAYPAL = Math.round((CONFIG.PRECIO_USD*(1+CONFIG.PAYPAL_COMISION)+CONFIG.PAYPAL_FIJO)*100)/100;
@@ -199,15 +200,15 @@ function addPayment(m){if(sentAPI[m])return;sentAPI[m]=1;try{fbq('track','AddPay
 
 function montoDe(m){
   if(m.moneda==='bs') return '<b>'+fmtBs(BS)+'</b>';
-  if(m.moneda==='usdt') return '<b>97 USDT</b>';
+  if(m.moneda==='usdt') return '<b>'+CONFIG.PRECIO_USD+' USDT</b>';
   if(m.moneda==='paypal') return '<b>$'+PAYPAL.toFixed(2)+' USD</b> <span class="k">(incluye la comisión de PayPal)</span>';
-  return '<b>$97 USD</b>';
+  return '<b>$'+CONFIG.PRECIO_USD+' USD</b>';
 }
 function montoTexto(m){
   if(m.moneda==='bs') return fmtBs(BS);
-  if(m.moneda==='usdt') return '97 USDT';
+  if(m.moneda==='usdt') return CONFIG.PRECIO_USD+' USDT';
   if(m.moneda==='paypal') return '$'+PAYPAL.toFixed(2)+' USD';
-  return '$97 USD';
+  return '$'+CONFIG.PRECIO_USD+' USD';
 }
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 
@@ -220,7 +221,7 @@ METODOS.forEach(function(m){
   d.style.setProperty('--c',col[0]); d.style.setProperty('--t',col[1]);
   var h = '<div class="mhead"><span class="mname"><span>'+col[2]+'</span>'+esc(m.nombre)+'</span><span class="tag">'+(m.donde==='ve'?'Venezuela':'Todos los países')+'</span></div><div class="mbody">';
   if(m.id==='hotmart'){
-    h += '<div class="amount">Monto: <b>$97 USD</b></div>';
+    h += '<div class="amount">Monto: <b>$'+CONFIG.PRECIO_USD+' USD</b></div>';
     h += '<a class="btn btn-o js-hot" href="'+esc(m.link)+'" target="_blank" rel="noopener">Pagar con tarjeta</a>';
     h += '<div class="note">Pago seguro por Hotmart. El acceso llega solo a tu correo; no necesitas llenar el formulario.</div>';
   } else {
@@ -267,7 +268,7 @@ $('#form').addEventListener('submit', function(e){
   var met = METODOS.filter(function(x){return x.nombre===m})[0]||{};
   var pais = met.donde==='ve' || /^(\+?58|0?4\d{2})/.test(w.replace(/\s/g,'')) ? 'Venezuela' : 'Otro país';
   var data = {producto:'Ruta 8S', nombre:n, correo:c, whatsapp:w, referencia:r, plan:'Ruta 8S', pais:pais, metodo:m,
-    monto:montoTexto(met), tasa: met.moneda==='bs'?String(CONFIG.TASA_BS):'', fuente: 'pago-1-pagina'+(src?'-'+src:'')};
+    monto:montoTexto(met), tasa: met.moneda==='bs'?String(CONFIG.TASA_BS):'', fuente: 'pago-1-pagina'+(P197?'-197':'')+(src?'-'+src:'')};
   var btn=$('#send'); btn.disabled=true; btn.textContent='Enviando…';
   var msg = 'Hola, soy '+n+'. Ya pagué la Ruta Excedente 8S con '+m+' ('+montoTexto(met)+').'+(r?' Referencia: '+r+'.':'')+' Mi correo es '+c+'. Te envío la captura.';
   $('#okWa').href = wa(msg);
