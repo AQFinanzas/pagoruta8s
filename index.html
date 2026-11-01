@@ -163,14 +163,14 @@ var CONFIG = {
 };
 /* Métodos: el orden aquí es el orden en la página. Campos vacíos = no se muestran. */
 var METODOS = [
+  {id:'hotmart', nombre:'Tarjeta de crédito o débito', donde:'all', moneda:'card',
+    link:'https://pay.hotmart.com/T106050439F'},
   {id:'pm', nombre:'Pago Móvil', donde:'ve', moneda:'bs', campos:[
     ['Banco','Banesco (0134)','0134'],['Teléfono','0424-679-1594','04246791594'],['Cédula','19.845.867','19845867'],['Titular','Roxana Vasquez',null]]},
   {id:'binance', nombre:'Binance (USDT)', donde:'all', moneda:'usdt', campos:[
     ['ID de Binance Pay','42637855'],['Usuario','enmanuel',null],['Apodo','enma33',null],['Correo','eeum2018@gmail.com']]},
   {id:'zelle', nombre:'Zelle', donde:'all', moneda:'usd', campos:[
     ['Correo de Zelle','alejandroaquinonesi@gmail.com']]},
-  {id:'hotmart', nombre:'Tarjeta de crédito o débito', donde:'all', moneda:'card',
-    link:'https://pay.hotmart.com/T106050439F'},
   {id:'banesco', nombre:'Transferencia Banesco', donde:'ve', moneda:'bs', campos:[
     ['Cuenta corriente','0134-0073-3407-3106-2707','01340073340731062707'],['Titular','Roxana Vasquez',null],['Cédula','19.845.867','19845867'],['Banco','Banesco',null]]},
   {id:'paypal', nombre:'PayPal', donde:'all', moneda:'paypal', campos:[
