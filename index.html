@@ -222,7 +222,7 @@ METODOS.forEach(function(m){
   var h = '<div class="mhead"><span class="mname"><span>'+col[2]+'</span>'+esc(m.nombre)+'</span><span class="tag">'+(m.donde==='ve'?'Venezuela':'Todos los países')+'</span></div><div class="mbody">';
   if(m.id==='hotmart'){
     h += '<div class="amount">Monto: <b>$'+CONFIG.PRECIO_USD+' USD</b></div>';
-    h += '<a class="btn btn-o js-hot" href="'+esc(m.link)+'" target="_blank" rel="noopener">Pagar con tarjeta</a>';
+    h += '<a class="btn btn-o js-hot" href="'+esc(m.link+(src?(m.link.indexOf('?')>=0?'&':'?')+'sck='+src:''))+'" target="_blank" rel="noopener">Pagar con tarjeta</a>';
     h += '<div class="note">Pago seguro por Hotmart. El acceso llega solo a tu correo; no necesitas llenar el formulario.</div>';
   } else {
     h += '<div class="row"><div><div class="k">Monto exacto</div><div class="v">'+esc(montoTexto(m))+'</div></div><button class="copy" data-c="'+esc(montoTexto(m).replace(/^Bs\. /,'').replace(/ USDT| USD/,'').replace('$',''))+'" data-m="'+esc(m.nombre)+'">Copiar</button></div>';
