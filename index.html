@@ -189,7 +189,7 @@ if(P197){ $('#precioTop').textContent='$197'; }
 function fmtBs(n){return 'Bs. '+n.toLocaleString('es-VE',{minimumFractionDigits:2,maximumFractionDigits:2})}
 var BS = CONFIG.PRECIO_USD*CONFIG.TASA_BS;
 var PAYPAL = Math.round((CONFIG.PRECIO_USD*(1+CONFIG.PAYPAL_COMISION)+CONFIG.PAYPAL_FIJO)*100)/100;
-$('#bsLine').textContent = 'Desde Venezuela: '+fmtBs(BS)+' (tasa '+CONFIG.TASA_BS.toLocaleString('es-VE')+' Bs/$)';
+$('#bsLine').style.display='none';
 var src = (new URLSearchParams(location.search).get('src')||'').replace(/[^a-z0-9_-]/gi,'').slice(0,30);
 
 function wa(msg){return 'https://wa.me/'+CONFIG.WHATSAPP+'?text='+encodeURIComponent(msg)}
@@ -226,6 +226,7 @@ METODOS.forEach(function(m){
     h += '<div class="note">Pago seguro por Hotmart. El acceso llega solo a tu correo; no necesitas llenar el formulario.</div>';
   } else {
     h += '<div class="row"><div><div class="k">Monto exacto</div><div class="v">'+esc(montoTexto(m))+'</div></div><button class="copy" data-c="'+esc(montoTexto(m).replace(/^Bs\. /,'').replace(/ USDT| USD/,'').replace('$',''))+'" data-m="'+esc(m.nombre)+'">Copiar</button></div>';
+    if(m.moneda==='bs') h += '<div class="k" style="margin:-4px 0 10px">Equivale a $'+CONFIG.PRECIO_USD+' USD a la tasa del día: '+CONFIG.TASA_BS.toLocaleString('es-VE')+' Bs/$</div>';
     m.campos.forEach(function(c){
       if(!c[1])return;
       var cp = c.length>2 ? c[2] : c[1];
